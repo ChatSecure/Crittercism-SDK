@@ -46,6 +46,27 @@
 // Retrieve currently stored opt out status.
 + (BOOL)getOptOutStatus;
 
+// Set the maximum number of Crittercism crash reports that will be stored on
+// the local device if the device does not have internet connectivity.  If
+// more than |maxOfflineCrashReports| crashes occur, then the oldest crash
+// will be overwritten. Decreasing the value of this setting will not delete
+// any offline crash reports. Unsent crash reports will be kept until they are
+// sent to the Crittercism server, hence there may be more than
+// |maxOfflineCrashReports| stored on the device for a short period of time.
+//
+// The default value is 3
++ (void)setMaxOfflineCrashReports:(NSUInteger)max;
+
+// Get the maximum number of Crittercism crash reports that will be stored on
+// the local device if the device does not have internet connectivity.
++ (NSUInteger)maxOfflineCrashReports;
+
+// Retrieve the Crittercism generated unique identifier for this device.
+// Note, this is NOT the iPhone's UDID.
+//
+// If called before enabling the library, will return an empty string.
++ (NSString *)getUserUUID;
+
 // Record an exception that you purposely caught via Crittercism.
 //
 // Note: Crittercism limits logging handled exceptions to once per minute. If
@@ -61,11 +82,7 @@
 //
 // Methods for User Metadata
 //
-
-+ (void)setAge:(int)age;
-+ (void)setGender:(NSString *)gender;
 + (void)setUsername:(NSString *)username;
-+ (void)setEmail:(NSString *)email;
 // Set an arbitrary key/value pair in the User Metadata
 + (void)setValue:(NSString *)value forKey:(NSString *)key;
 
@@ -76,42 +93,9 @@
 + (Crittercism *)sharedInstance;
 
 - (id <CrittercismDelegate>)delegate;
+
 - (void)setDelegate:(id <CrittercismDelegate>)delegate;
 
 - (BOOL)didCrashOnLastLoad;
-- (void)setDidCrashOnLastLoad:(BOOL)didCrash;
-
-//
-// Initializers - Will be removed in a future release. Please change your code
-// to use one of the enable* methods
-//
-
-+ (void)initWithAppID:(NSString *)appId __attribute__((deprecated));
-
-+ (void)initWithAppID:(NSString *)appId
-    andMainViewController:(UIViewController *)viewController
-    __attribute__((deprecated));
-
-+ (void)initWithAppID:(NSString *)appId
-    andMainViewController:(UIViewController *)viewController
-    andDelegate:(id)critterDelegate
-    __attribute__((deprecated));
-
-// Deprecated in v3.3.1 - key and secret are no longer needed
-+ (void)initWithAppID:(NSString *)appId
-    andKey:(NSString *)keyStr
-    andSecret:(NSString *)secretStr
-    __attribute__((deprecated));
-
-// Deprecated in v3.3.1 - key and secret are no longer needed
-+ (void)initWithAppID:(NSString *)appId
-    andKey:(NSString *)keyStr
-    andSecret:(NSString *)secretStr
-    andMainViewController:(UIViewController *)viewController
-    __attribute__((deprecated));
-
-// This method does nothing and will be removed in a future release.
-+ (void)configurePushNotification:(NSData *)deviceToken
-    __attribute__((deprecated));
 
 @end
